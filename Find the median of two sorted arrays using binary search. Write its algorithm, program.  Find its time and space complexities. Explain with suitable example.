@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <limits> // For numeric_limits
+
+using namespace std;
+
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int m = nums1.size();
+    int n = nums2.size();
+
+    if (m > n) {
+        return findMedianSortedArrays(nums2, nums1); // Ensure nums1 is shorter
+    }
+
+    int low = 0;
+    int high = m;
+    int half = (m + n + 1) / 2;
+
+    while (low <= high) {
+        int partitionX = (low + high) / 2;
+        int partitionY = half - partitionX;
+
+        int maxLeftX = (partitionX == 0) ? numeric_limits<int>::min() : nums1[partitionX - 1];
+        int minRightX = (partitionX == m) ? numeric_limits<int>::max() : nums1[partitionX];
+
+        int maxLeftY = (partitionY == 0) ? numeric_limits<int>::min() : nums2[partitionY - 1];
+        int minRightY = (partitionY == n) ? numeric_limits<int>::max() : nums2[partitionY];
+
+        if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
+            if ((m + n) % 2 == 0) {
+                return (double)(max(maxLeftX, maxLeftY) + min(minRightX, minRightY)) / 2.0;
+            } else {
+                return (double)max(maxLeftX, maxLeftY);
+            }
+        } else if (maxLeftX > minRightY) {
+            high = partitionX - 1;
+        } else {
+            low = partitionX + 1;
+        }
+    }
+
+    return 0.0; // Should not reach here for valid sorted arrays
+}
+
+int main() {
+    vector<int> nums1_1 = {1, 3};
+    vector<int> nums2_1 = {2};
+    cout << "Median of nums1 = [1, 3], nums2 = [2]: " << findMedianSortedArrays(nums1_1, nums2_1) << endl; // Output: 2.0
+
+    vector<int> nums1_2 = {1, 2};
+    vector<int> nums2_2 = {3, 4};
+    cout << "Median of nums1 = [1, 2], nums2 = [3, 4]: " << findMedianSortedArrays(nums1_2, nums2_2) << endl; // Output: 2.5
+
+    vector<int> nums1_3 = {0, 0};
+    vector<int> nums2_3 = {0, 0};
+    cout << "Median of nums1 = [0, 0], nums2 = [0, 0]: " << findMedianSortedArrays(nums1_3, nums2_3) << endl; // Output: 0.0
+
+    vector<int> nums1_4 = {};
+    vector<int> nums2_4 = {1};
+    cout << "Median of nums1 = [], nums2 = [1]: " << findMedianSortedArrays(nums1_4, nums2_4) << endl; // Output: 1.0
+
+    vector<int> nums1_5 = {2};
+    vector<int> nums2_5 = {};
+    cout << "Median of nums1 = [2], nums2 = []: " << findMedianSortedArrays(nums1_5, nums2_5) << endl; // Output: 2.0
+
+    return 0;
+}
