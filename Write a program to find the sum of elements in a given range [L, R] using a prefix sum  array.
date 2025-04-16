@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> calculatePrefixSum(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> prefixSum(n + 1, 0);
+    for (int i = 0; i < n; ++i) {
+        prefixSum[i + 1] = prefixSum[i] + arr[i];
+    }
+    return prefixSum;
+}
+int rangeSum(const vector<int>& prefixSum, int L, int R) {
+    return prefixSum[R + 1] - prefixSum[L];
+}
+int main() {
+    vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<int> prefixSumArray = calculatePrefixSum(arr);
+    int L = 2;
+    int R = 5;
+    int sumInRange = rangeSum(prefixSumArray, L, R);
+    cout << "Sum of elements in the range [" << L << ", " << R << "] is: " << sumInRange << endl;
+    return 0;
+}
