@@ -1,0 +1,99 @@
+#include <iostream>
+#include<vector>
+
+// Definition for singly-linked list.
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* fast = dummy;
+        ListNode* slow = dummy;
+
+        // Move fast pointer n steps ahead
+        for (int i = 0; i < n; ++i) {
+            if (fast == nullptr) {
+                return head; // n is greater than the list length (handle as needed)
+            }
+            fast = fast->next;
+        }
+
+        // Move both pointers until fast reaches the end
+        while (fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+
+        // Remove the nth node from the end
+        slow->next = slow->next->next;
+
+        return dummy->next;
+    }
+};
+
+// Helper function to create a linked list from a vector
+ListNode* createList(const std::vector<int>& values) {
+    if (values.empty()) return nullptr;
+    ListNode* head = new ListNode(values[0]);
+    ListNode* current = head;
+    for (size_t i = 1; i < values.size(); ++i) {
+        current->next = new ListNode(values[i]);
+        current = current->next;
+    }
+    return head;
+}
+
+// Helper function to print a linked list
+void printList(ListNode* head) {
+    ListNode* temp = head;
+    while (temp) {
+        std::cout << temp->val << " -> ";
+        temp = temp->next;
+    }
+    std::cout << "nullptr" << std::endl;
+}
+
+int main() {
+    Solution sol;
+    std::vector<int> vals1 = {1, 2, 3, 4, 5};
+    ListNode* head1 = createList(vals1);
+    std::cout << "Original list 1: ";
+    printList(head1);
+    ListNode* result1 = sol.removeNthFromEnd(head1, 2);
+    std::cout << "List 1 after removing 2nd from end: ";
+    printList(result1); // Output: 1 -> 2 -> 3 -> 5 -> nullptr
+
+    std::vector<int> vals2 = {1};
+    ListNode* head2 = createList(vals2);
+    std::cout << "Original list 2: ";
+    printList(head2);
+    ListNode* result2 = sol.removeNthFromEnd(head2, 1);
+    std::cout << "List 2 after removing 1st from end: ";
+    printList(result2); // Output: nullptr
+
+    std::vector<int> vals3 = {1, 2};
+    ListNode* head3 = createList(vals3);
+    std::cout << "Original list 3: ";
+    printList(head3);
+    ListNode* result3 = sol.removeNthFromEnd(head3, 1);
+    std::cout << "List 3 after removing 1st from end: ";
+    printList(result3); // Output: 1 -> nullptr
+
+    std::vector<int> vals4 = {1, 2};
+    ListNode* head4 = createList(vals4);
+    std::cout << "Original list 4: ";
+    printList(head4);
+    ListNode* result4 = sol.removeNthFromEnd(head4, 2);
+    std::cout << "List 4 after removing 2nd from end: ";
+    printList(result4); // Output: 2 -> nullptr
+
+    return 0;
+}
