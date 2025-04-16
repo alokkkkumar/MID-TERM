@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <numeric>
+using namespace std;
+int findEquilibriumIndex(const vector<int>& arr) {
+    int n = arr.size();
+    if (n == 0) {
+        return -1;
+    }
+    long long totalSum = accumulate(arr.begin(), arr.end(), 0LL);
+    long long leftSum = 0;
+    for (int i = 0; i < n; ++i) {
+        totalSum -= arr[i];
+        if (leftSum == totalSum) {
+            return i;
+        }
+        leftSum += arr[i];
+    }
+    return -1;
+}
+int main() {
+    vector<int> arr1 = {-7, 1, 5, 2, -4, 3, 0};
+    cout << "Equilibrium index of arr1: " << findEquilibriumIndex(arr1) << endl;
+    vector<int> arr2 = {1, 2, 3};
+    cout << "Equilibrium index of arr2: " << findEquilibriumIndex(arr2) << endl;
+    vector<int> arr3 = {-1, 0, -1};
+    cout << "Equilibrium index of arr3: " << findEquilibriumIndex(arr3) << endl;
+    vector<int> arr4 = {0, 0, 0, 0};
+    cout << "Equilibrium index of arr4: " << findEquilibriumIndex(arr4) << endl;
+    return 0;
+}
