@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+int lengthOfLongestSubstring(string s) {
+    int n = s.length();
+    if (n <= 1) {
+        return n;
+    }
+    int maxLength = 0;
+    int windowStart = 0;
+    unordered_map<char, int> charIndexMap;
+    for (int windowEnd = 0; windowEnd < n; ++windowEnd) {
+        char currentChar = s[windowEnd];
+        if (charIndexMap.count(currentChar) && charIndexMap[currentChar] >= windowStart) {
+            windowStart = charIndexMap[currentChar] + 1;
+        }
+        charIndexMap[currentChar] = windowEnd;
+        maxLength = max(maxLength, windowEnd - windowStart + 1);
+    }
+    return maxLength;
+}
+int main() {
+    string s1 = "abcabcbb";
+    cout << "Length of longest substring without repeating characters in \"" << s1 << "\": " << lengthOfLongestSubstring(s1) << endl;
+    string s2 = "bbbbb";
+    cout << "Length of longest substring without repeating characters in \"" << s2 << "\": " << lengthOfLongestSubstring(s2) << endl;
+    string s3 = "pwwkew";
+    cout << "Length of longest substring without repeating characters in \"" << s3 << "\": " << lengthOfLongestSubstring(s3) << endl;
+    string s4 = "";
+    cout << "Length of longest substring without repeating characters in \"" << s4 << "\": " << lengthOfLongestSubstring(s4) << endl;
+    string s5 = "abcdefg";
+    cout << "Length of longest substring without repeating characters in \"" << s5 << "\": " << lengthOfLongestSubstring(s5) << endl;
+    string s6 = "dvdf";
+    cout << "Length of longest substring without repeating characters in \"" << s6 << "\": " << lengthOfLongestSubstring(s6) << endl;
+    return 0;
+}
