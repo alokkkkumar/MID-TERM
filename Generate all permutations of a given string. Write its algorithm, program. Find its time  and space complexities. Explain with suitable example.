@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <set> // To store unique permutations
+
+using namespace std;
+
+set<string> generatePermutations(string s) {
+    set<string> permutations;
+    if (s.length() == 1) {
+        permutations.insert(s);
+        return permutations;
+    }
+
+    for (int i = 0; i < s.length(); ++i) {
+        char fixedChar = s[i];
+        string remainingChars;
+        for (int j = 0; j < s.length(); ++j) {
+            if (i != j) {
+                remainingChars += s[j];
+            }
+        }
+
+        set<string> subPermutations = generatePermutations(remainingChars);
+        for (const string& subPerm : subPermutations) {
+            permutations.insert(fixedChar + subPerm);
+        }
+    }
+    return permutations;
+}
+
+int main() {
+    string s1 = "abc";
+    cout << "Permutations of \"" << s1 << "\": ";
+    for (const string& perm : generatePermutations(s1)) {
+        cout << perm << " ";
+    }
+    cout << endl; // Output: abc acb bac bca cab cba
+
+    string s2 = "aab";
+    cout << "Permutations of \"" << s2 << "\": ";
+    for (const string& perm : generatePermutations(s2)) {
+        cout << perm << " ";
+    }
+    cout << endl; // Output: aab aba baa
+
+    string s3 = "a";
+    cout << "Permutations of \"" << s3 << "\": ";
+    for (const string& perm : generatePermutations(s3)) {
+        cout << perm << " ";
+    }
+    cout << endl; // Output: a
+
+    string s4 = "";
+    cout << "Permutations of \"" << s4 << "\": ";
+    for (const string& perm : generatePermutations(s4)) {
+        cout << perm << " ";
+    }
+    cout << endl; // Output:
+
+    return 0;
+}
