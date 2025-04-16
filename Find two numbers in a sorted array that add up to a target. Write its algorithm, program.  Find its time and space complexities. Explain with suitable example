@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+pair<int, int> findTwoSumSorted(const vector<int>& arr, int target) {
+    int left = 0;
+    int right = arr.size() - 1;
+
+    while (left < right) {
+        int currentSum = arr[left] + arr[right];
+        if (currentSum == target) {
+            return {left, right}; // Return indices
+            // Or return {arr[left], arr[right]}; // Return the numbers
+        } else if (currentSum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return {-1, -1}; // Indicate no pair found (you could also use a boolean or an empty pair)
+}
+
+int main() {
+    vector<int> arr1 = {2, 7, 11, 15};
+    int target1 = 9;
+    pair<int, int> result1 = findTwoSumSorted(arr1, target1);
+    if (result1.first != -1) {
+        cout << "Indices for target " << target1 << ": " << result1.first << ", " << result1.second << endl; // Output: Indices for target 9: 0, 1
+    } else {
+        cout << "No pair found for target " << target1 << endl;
+    }
+
+    vector<int> arr2 = {10, 20, 35, 50, 75, 80};
+    int target2 = 70;
+    pair<int, int> result2 = findTwoSumSorted(arr2, target2);
+    if (result2.first != -1) {
+        cout << "Indices for target " << target2 << ": " << result2.first << ", " << result2.second << endl; // Output: Indices for target 70: 1, 2
+    } else {
+        cout << "No pair found for target " << target2 << endl;
+    }
+
+    vector<int> arr3 = {1, 2, 3, 4, 5};
+    int target3 = 10;
+    pair<int, int> result3 = findTwoSumSorted(arr3, target3);
+    if (result3.first != -1) {
+        cout << "Indices for target " << target3 << ": " << result3.first << ", " << result3.second << endl;
+    } else {
+        cout << "No pair found for target " << target3 << endl; // Output: No pair found for target 10
+    }
+
+    return 0;
+}
