@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int findMaximumXOR(vector<int>& nums) {
+    int maxXOR = 0;
+    int mask = 0;
+
+    // Iterate from the most significant bit to the least significant bit
+    for (int i = 31; i >= 0; --i) {
+        // Create a mask with '1' at the current bit position and all higher bits
+        mask |= (1 << i);
+
+        // Store prefixes of all numbers with the current mask
+        unordered_set<int> prefixes;
+        for (int num : nums) {
+            prefixes.insert(num & mask);
+        }
+
+        // Assume the maximum XOR we can achieve with the current mask is maxXOR | (1 << i)
+        int possibleMaxXOR = maxXOR | (1 << i);
+
+        // Check if there exist two prefixes p1 and p2 in the set such that p1 ^ p2 == possibleMaxXOR
+        for (int prefix : prefixes) {
+            if (prefixes.count(possibleMaxXOR ^ prefix)) {
+                maxXOR = possibleMaxXOR;
+                break;
+            }
+        }
+    }
+
+    return maxXOR;
+}
+
+int main() {
+    vector<int> nums1 = {3, 10, 5, 25, 2, 8};
+    cout << "Maximum XOR of two numbers in nums1: " << findMaximumXOR(nums1) << endl; // Output: 28
+
+    vector<int> nums2 = {0};
+    cout << "Maximum XOR of two numbers in nums2: " << findMaximumXOR(nums2) << endl; // Output: 0
+
+    vector<int> nums3 = {2, 4};
+    cout << "Maximum XOR of two numbers in nums3: " << findMaximumXOR(nums3) << endl; // Output: 6
+
+    vector<int> nums4 = {8, 10, 2};
+    cout << "Maximum XOR of two numbers in nums4: " << findMaximumXOR(nums4) << endl; // Output: 10
+
+    return 0;
+}
