@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <limits>
+using namespace std;
+int findMaxSubarraySum(const vector<int>& arr, int k) 
+{
+    int n = arr.size();
+    if (n < k || k <= 0)
+    {
+        return numeric_limits<int>::min();
+    }
+    int maxSum = numeric_limits<int>::min();
+    int currentSum = 0;
+    int windowStart = 0;
+    for (int windowEnd = 0; windowEnd < n; ++windowEnd) 
+    {
+        currentSum += arr[windowEnd]; 
+        if (windowEnd - windowStart + 1 == k) 
+        { 
+            maxSum = max(maxSum, currentSum);
+            currentSum -= arr[windowStart];
+            windowStart++;
+        }
+    }
+    return maxSum;
+}
+int main() {
+    vector<int> arr1 = {2, 1, 5, 1, 3, 2};
+    int k1 = 3;
+    cout << "Maximum subarray sum of size " << k1 << ": " << findMaxSubarraySum(arr1, k1) << endl;
+    vector<int> arr2 = {2, 3, 4, 1, 5};
+    int k2 = 2;
+    cout << "Maximum subarray sum of size " << k2 << ": " << findMaxSubarraySum(arr2, k2) << endl;
+    vector<int> arr3 = {1, 4, 2, 10, 2, 3, 1, 0, 20};
+    int k3 = 4;
+    cout << "Maximum subarray sum of size " << k3 << ": " << findMaxSubarraySum(arr3, k3) << endl;
+    vector<int> arr4 = {1, 2, 3};
+    int k4 = 5;
+    cout << "Maximum subarray sum of size " << k4 << ": " << findMaxSubarraySum(arr4, k4) << endl;
+    return 0;
+}
