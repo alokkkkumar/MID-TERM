@@ -1,0 +1,37 @@
+#include <iostream>
+#include <vector>
+#include <numeric>
+using namespace std;
+bool canSplitArray(const vector<int>& arr) {
+    int n = arr.size();
+    if (n < 2) {
+        return false;
+    }
+    long long totalSum = accumulate(arr.begin(), arr.end(), 0LL);
+    long long prefixSum = 0;
+    for (int i = 0; i < n; ++i) {
+        if (i > 0) {
+            prefixSum += arr[i - 1];
+        }
+        long long suffixSum = totalSum - prefixSum - arr[i];
+        if (prefixSum == suffixSum) {
+            return true;
+        }
+    }
+    return false;
+}
+int main() {
+    vector<int> arr1 = {1, 2, 3, 0, 6};
+    cout << "Can arr1 be split? " << canSplitArray(arr1) << endl; 
+    vector<int> arr2 = {1, 2, 3, 4, 5};
+    cout << "Can arr2 be split? " << canSplitArray(arr2) << endl; 
+    vector<int> arr3 = {10, 4, -8, 7, 3};
+    cout << "Can arr3 be split? " << canSplitArray(arr3) << endl;
+    vector<int> arr4 = {0, 0, 0, 0};
+    cout << "Can arr4 be split? " << canSplitArray(arr4) << endl;
+    vector<int> arr5 = {1};
+    cout << "Can arr5 be split? " << canSplitArray(arr5) << endl;
+    vector<int> arr6 = {1, 1};
+    cout << "Can arr6 be split? " << canSplitArray(arr6) << endl;
+    return 0;
+}
