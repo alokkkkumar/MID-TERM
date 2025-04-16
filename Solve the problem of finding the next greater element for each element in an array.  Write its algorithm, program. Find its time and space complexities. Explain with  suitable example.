@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+vector<int> nextGreaterElement(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> nge(n, -1);
+    stack<int> s;
+
+    for (int i = 0; i < n; ++i) {
+        while (!s.empty() && arr[i] > arr[s.top()]) {
+            nge[s.top()] = arr[i];
+            s.pop();
+        }
+        s.push(i);
+    }
+
+    return nge;
+}
+
+int main() {
+    vector<int> arr1 = {4, 5, 2, 25};
+    vector<int> nge1 = nextGreaterElement(arr1);
+    cout << "NGE for arr1: ";
+    for (int val : nge1) {
+        cout << val << " ";
+    }
+    cout << endl; // Output: 5 25 25 -1
+
+    vector<int> arr2 = {1, 2, 3, 4};
+    vector<int> nge2 = nextGreaterElement(arr2);
+    cout << "NGE for arr2: ";
+    for (int val : nge2) {
+        cout << val << " ";
+    }
+    cout << endl; // Output: 2 3 4 -1
+
+    vector<int> arr3 = {4, 3, 2, 1};
+    vector<int> nge3 = nextGreaterElement(arr3);
+    cout << "NGE for arr3: ";
+    for (int val : nge3) {
+        cout << val << " ";
+    }
+    cout << endl; // Output: -1 -1 -1 -1
+
+    vector<int> arr4 = {1, 3, 2, 4};
+    vector<int> nge4 = nextGreaterElement(arr4);
+    cout << "NGE for arr4: ";
+    for (int val : nge4) {
+        cout << val << " ";
+    }
+    cout << endl; // Output: 3 4 4 -1
+
+    return 0;
+}
