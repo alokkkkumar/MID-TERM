@@ -1,0 +1,26 @@
+#include <iostream>
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        // Handle edge cases: 0 and negative numbers are not positive powers of two
+        if (n <= 0) {
+            return false;
+        }
+        // Bitwise AND of n and n-1 will be 0 if n is a power of two
+        return (n & (n - 1)) == 0;
+    }
+};
+
+int main() {
+    Solution sol;
+    std::cout << "Is 1 a power of two? " << (sol.isPowerOfTwo(1) ? "Yes" : "No") << std::endl;   // Output: Yes
+    std::cout << "Is 2 a power of two? " << (sol.isPowerOfTwo(2) ? "Yes" : "No") << std::endl;   // Output: Yes
+    std::cout << "Is 3 a power of two? " << (sol.isPowerOfTwo(3) ? "Yes" : "No") << std::endl;   // Output: No
+    std::cout << "Is 4 a power of two? " << (sol.isPowerOfTwo(4) ? "Yes" : "No") << std::endl;   // Output: Yes
+    std::cout << "Is 8 a power of two? " << (sol.isPowerOfTwo(8) ? "Yes" : "No") << std::endl;   // Output: Yes
+    std::cout << "Is 0 a power of two? " << (sol.isPowerOfTwo(0) ? "Yes" : "No") << std::endl;   // Output: No
+    std::cout << "Is -4 a power of two? " << (sol.isPowerOfTwo(-4) ? "Yes" : "No") << std::endl; // Output: No
+    std::cout << "Is 16 a power of two? " << (sol.isPowerOfTwo(16) ? "Yes" : "No") << std::endl; // Output: Yes
+    return 0;
+}
