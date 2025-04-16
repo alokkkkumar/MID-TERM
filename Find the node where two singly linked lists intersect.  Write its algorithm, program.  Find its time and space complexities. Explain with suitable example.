@@ -1,0 +1,125 @@
+#include <iostream>
+#include<vector>
+
+// Definition for singly-linked list.
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (!headA || !headB) {
+            return nullptr;
+        }
+
+        int lenA = 0;
+        ListNode *currA = headA;
+        while (currA) {
+            lenA++;
+            currA = currA->next;
+        }
+
+        int lenB = 0;
+        ListNode *currB = headB;
+        while (currB) {
+            lenB++;
+            currB = currB->next;
+        }
+
+        ListNode *ptrA = headA;
+        ListNode *ptrB = headB;
+
+        if (lenA > lenB) {
+            int diff = lenA - lenB;
+            for (int i = 0; i < diff; ++i) {
+                ptrA = ptrA->next;
+            }
+        } else if (lenB > lenA) {
+            int diff = lenB - lenA;
+            for (int i = 0; i < diff; ++i) {
+                ptrB = ptrB->next;
+            }
+        }
+
+        while (ptrA && ptrB) {
+            if (ptrA == ptrB) {
+                return ptrA;
+            }
+            ptrA = ptrA->next;
+            ptrB = ptrB->next;
+        }
+
+        return nullptr;
+    }
+};
+
+// Helper function to create a linked list from a vector
+ListNode* createList(const std::vector<int>& values, ListNode* &tail) {
+    if (values.empty()) return nullptr;
+    ListNode* head = new ListNode(values[0]);
+    ListNode* current = head;
+    for (size_t i = 1; i < values.size(); ++i) {
+        current->next = new ListNode(values[i]);
+        current = current->next;
+    }
+    tail = current;
+    return head;
+}
+
+// Helper function to print a linked list
+void printList(ListNode* head) {
+    ListNode* temp = head;
+    while (temp) {
+        std::cout << temp->val << " -> ";
+        temp = temp->next;
+    }
+    std::cout << "nullptr" << std::endl;
+}
+
+int main() {
+    Solution sol;
+    ListNode *tailA, *tailB;
+    ListNode *intersectNode = new ListNode(8);
+    intersectNode->next = new ListNode(4);
+    intersectNode->next->next = new ListNode(5);
+
+    std::vector<int> valsA = {1, 9, 1};
+    ListNode *headA = createList(valsA, tailA);
+    tailA->next = intersectNode;
+
+    std::vector<int> valsB = {3};
+    ListNode *headB = createList(valsB, tailB);
+    tailB->next = intersectNode;
+
+    std::cout << "List A: ";
+    printList(headA);
+    std::cout << "List B: ";
+    printList(headB);
+
+    ListNode *intersection = sol.getIntersectionNode(headA, headB);
+    if (intersection) {
+        std::cout << "Intersection at node with value: " << intersection->val << std::endl; // Output: 8
+    } else {
+        std::cout << "No intersection found." << std::endl;
+    }
+
+    // Example with no intersection
+    ListNode *headC = new ListNode(2);
+    headC->next = new ListNode(6);
+    headC->next->next = new ListNode(4);
+
+    ListNode *headD = new ListNode(1);
+    headD->next = new ListNode(5);
+
+    ListNode *intersection2 = sol.getIntersectionNode(headC, headD);
+    if (intersection2) {
+        std::cout << "Intersection at node with value: " << intersection2->val << std::endl;
+    } else {
+        std::cout << "No intersection found." << std::endl; // Output: No intersection found.
+    }
+
+    return 0;
+}
