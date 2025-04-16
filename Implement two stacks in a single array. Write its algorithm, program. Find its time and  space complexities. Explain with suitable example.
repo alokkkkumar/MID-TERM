@@ -1,0 +1,95 @@
+#include <iostream>
+#include <vector>
+#include <stdexcept> // For exception handling
+
+class TwoStacks {
+private:
+    std::vector<int> array;
+    int top1; // Points to the top of the first stack (grows from left)
+    int top2; // Points to the top of the second stack (grows from right)
+    int capacity;
+
+public:
+    TwoStacks(int size) : capacity(size), array(size), top1(-1), top2(size) {}
+
+    void push1(int value) {
+        if (top1 + 1 == top2) {
+            throw std::overflow_error("Stack 1 Overflow");
+        }
+        top1++;
+        array[top1] = value;
+    }
+
+    void push2(int value) {
+        if (top2 - 1 == top1) {
+            throw std::overflow_error("Stack 2 Overflow");
+        }
+        top2--;
+        array[top2] = value;
+    }
+
+    int pop1() {
+        if (top1 == -1) {
+            throw std::underflow_error("Stack 1 Underflow");
+        }
+        int value = array[top1];
+        top1--;
+        return value;
+    }
+
+    int pop2() {
+        if (top2 == capacity) {
+            throw std::underflow_error("Stack 2 Underflow");
+        }
+        int value = array[top2];
+        top2++;
+        return value;
+    }
+
+    bool isEmpty1() const {
+        return top1 == -1;
+    }
+
+    bool isEmpty2() const {
+        return top2 == capacity;
+    }
+
+    int peek1() const {
+        if (top1 == -1) {
+            throw std::underflow_error("Stack 1 Underflow");
+        }
+        return array[top1];
+    }
+
+    int peek2() const {
+        if (top2 == capacity) {
+            throw std::underflow_error("Stack 2 Underflow");
+        }
+        return array[top2];
+    }
+};
+
+int main() {
+    TwoStacks ts(5);
+
+    try {
+        ts.push1(10);
+        ts.push1(20);
+        ts.push2(30);
+        ts.push2(40);
+        ts.push1(50); // This will cause overflow as top1 + 1 == top2 (4 + 1 == 5)
+    } catch (const std::overflow_error& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    std::cout << "Pop from Stack 1: " << ts.pop1() << std::endl; // Output: 20
+    std::cout << "Pop from Stack 2: " << ts.pop2() << std::endl; // Output: 40
+
+    std::cout << "Is Stack 1 empty? " << (ts.isEmpty1() ? "Yes" : "No") << std::endl; // Output: No
+    std::cout << "Is Stack 2 empty? " << (ts.isEmpty2() ? "Yes" : "No") << std::endl; // Output: No
+
+    std::cout << "Peek Stack 1: " << ts.peek1() << std::endl; // Output: 10
+    std::cout << "Peek Stack 2: " << ts.peek2() << std::endl; // Output: 30
+
+    return 0;
+}
