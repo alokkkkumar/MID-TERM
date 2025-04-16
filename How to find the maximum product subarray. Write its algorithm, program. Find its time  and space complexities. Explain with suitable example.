@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <limits> // for INT_MIN
+
+using namespace std;
+
+int maxProductSubarray(vector<int>& nums) {
+    if (nums.empty()) {
+        return 0; // Or throw an exception, depending on the requirements
+    }
+
+    int maxProduct = nums[0];
+    int minProduct = nums[0];
+    int result = maxProduct;
+
+    for (int i = 1; i < nums.size(); ++i) {
+        int num = nums[i];
+        if (num < 0) {
+            swap(maxProduct, minProduct);
+        }
+        maxProduct = max(num, num * maxProduct);
+        minProduct = min(num, num * minProduct);
+        result = max(result, maxProduct);
+    }
+    return result;
+}
+
+int main() {
+    vector<int> nums1 = {2, 3, -2, 4};
+    cout << "Max product subarray: " << maxProductSubarray(nums1) << endl; // Output: 6
+
+    vector<int> nums2 = {-2, 0, -1};
+    cout << "Max product subarray: " << maxProductSubarray(nums2) << endl; // Output: 0
+
+    vector<int> nums3 = {-2, 3, -4};
+    cout << "Max product subarray: " << maxProductSubarray(nums3) << endl; // Output: 24
+
+    vector<int> nums4 = {-1, -1, -2, 4};
+    cout << "Max product subarray: " << maxProductSubarray(nums4) << endl; // Output: 8
+
+    vector<int> nums5 = {0, 2};
+    cout << "Max product subarray: " << maxProductSubarray(nums5) << endl; // Output: 2
+
+    return 0;
+}
