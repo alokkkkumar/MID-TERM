@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath>
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        // Negative numbers are not palindromes
+        if (x < 0) {
+            return false;
+        }
+
+        // 0 is a palindrome
+        if (x == 0) {
+            return true;
+        }
+
+        int original_x = x;
+        int reversed_x = 0;
+
+        while (x > 0) {
+            int digit = x % 10;
+            reversed_x = reversed_x * 10 + digit;
+            x /= 10;
+        }
+
+        return original_x == reversed_x;
+    }
+};
+
+int main() {
+    Solution sol;
+    std::cout << "Is 121 a palindrome? " << (sol.isPalindrome(121) ? "Yes" : "No") << std::endl;   // Output: Yes
+    std::cout << "Is -121 a palindrome? " << (sol.isPalindrome(-121) ? "Yes" : "No") << std::endl; // Output: No
+    std::cout << "Is 10 a palindrome? " << (sol.isPalindrome(10) ? "Yes" : "No") << std::endl;    // Output: No
+    std::cout << "Is 0 a palindrome? " << (sol.isPalindrome(0) ? "Yes" : "No") << std::endl;     // Output: Yes
+    std::cout << "Is 12321 a palindrome? " << (sol.isPalindrome(12321) ? "Yes" : "No") << std::endl; // Output: Yes
+    std::cout << "Is 9 a palindrome? " << (sol.isPalindrome(9) ? "Yes" : "No") << std::endl;      // Output: Yes
+    return 0;
+}
