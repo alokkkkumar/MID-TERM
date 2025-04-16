@@ -1,0 +1,62 @@
+Prefix Sum Array: Concept and Applications
+A prefix sum array (also known as a cumulative sum array) is a data structure that stores the cumulative sum of elements of a given array. For an input array arr of size n, its prefix sum array prefixSum of the same size is defined such that:
+
+prefixSum[i] = arr[0] + arr[1] + ... + arr[i]
+
+In other words, prefixSum[i] holds the sum of all elements in arr from index 0 up to index i (inclusive).
+
+Construction of a Prefix Sum Array:
+
+Given an array arr of size n, we can construct its prefix sum array prefixSum as follows:
+
+Initialize prefixSum as an array of the same size as arr.
+prefixSum[0] = arr[0] (The first element of the prefix sum array is the same as the first element of the original array).
+For i from 1 to n-1: prefixSum[i] = prefixSum[i-1] + arr[i]
+Example:
+
+Let's say our input array arr is: [1, 2, 3, 4, 5]
+
+The corresponding prefix sum array prefixSum would be:
+
+prefixSum[0] = arr[0] = 1
+prefixSum[1] = prefixSum[0] + arr[1] = 1 + 2 = 3
+prefixSum[2] = prefixSum[1] + arr[2] = 3 + 3 = 6
+prefixSum[3] = prefixSum[2] + arr[3] = 6 + 4 = 10
+prefixSum[4] = prefixSum[3] + arr[4] = 10 + 5 = 15
+So, prefixSum is: [1, 3, 6, 10, 15]
+
+Applications of Prefix Sum Array:
+
+The prefix sum array is a powerful tool for efficiently solving various range query problems and other related tasks. Here are some key applications:
+
+Range Sum Queries: The most fundamental application is to find the sum of elements within a given range [L, R] (inclusive) in the original array arr in constant time, O(1), after the prefix sum array has been computed.
+
+Sum(arr[L...R]) = prefixSum[R] - prefixSum[L-1] (if L > 0)
+
+If L = 0, then Sum(arr[0...R]) = prefixSum[R].
+
+Example: For arr = [1, 2, 3, 4, 5] and prefixSum = [1, 3, 6, 10, 15], the sum of elements from index 1 to 3 (i.e., 2 + 3 + 4) can be calculated as prefixSum[3] - prefixSum[1-1] = prefixSum[3] - prefixSum[0] = 10 - 1 = 9.
+
+Calculating Running Sums: The prefix sum array itself inherently contains the running sum of the original array at each index. This can be useful in various analytical tasks.
+
+Solving Problems with Subarray Sums: Many problems involve finding subarrays with a specific sum or properties related to their sums. The prefix sum array can help in efficiently calculating the sum of any subarray, which is often a crucial step in solving these problems. For example:
+
+Finding if a subarray with a sum of zero exists.
+Finding the largest subarray with a given sum.
+Counting the number of subarrays with a given sum.
+2D Prefix Sum (for matrices): The concept can be extended to two-dimensional arrays (matrices). A 2D prefix sum array prefixSum[i][j] stores the sum of all elements in the submatrix from (0, 0) to (i, j) (inclusive). This allows for efficient calculation of the sum of any subrectangle within the original matrix.
+
+Sum(matrix[r1...r2][c1...c2]) = prefixSum[r2][c2] - prefixSum[r1-1][c2] - prefixSum[r2][c1-1] + prefixSum[r1-1][c1-1] (with appropriate boundary checks for indices less than 0).
+
+Difference Arrays: Prefix sum arrays are closely related to difference arrays. A difference array can be used to efficiently perform range updates on an array, and then a prefix sum operation can be used to retrieve the final updated array.
+
+Image Processing: In image processing, 2D prefix sum arrays (often called integral images) can be used for fast calculation of sums of pixel intensities within rectangular regions, which is useful for tasks like feature extraction (e.g., Haar-like features).
+
+Dynamic Programming: In some dynamic programming problems, prefix sums can be used to optimize the calculation of certain states by efficiently retrieving sums of previous values.
+
+Time and Space Complexity:
+
+Construction: Building the prefix sum array takes O(n) time, where n is the size of the original array, as we iterate through the array once.
+Querying Range Sum (after construction): Once the prefix sum array is built, answering a range sum query takes O(1) time.
+Space Complexity: The prefix sum array requires O(n) extra space to store the cumulative sums.
+In summary, the prefix sum array is a simple yet powerful data structure that pre-processes an array to enable efficient computation of range sums. Its applications span various areas of algorithm design and data analysis, making it a valuable technique to have in your problem-solving toolkit.
