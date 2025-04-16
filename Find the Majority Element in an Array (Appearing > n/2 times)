@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int findMajorityElement(const vector<int>& nums) {
+    int candidate = -1;
+    int count = 0;
+
+    // First pass: Finding a potential candidate
+    for (int num : nums) {
+        if (count == 0) {
+            candidate = num;
+            count = 1;
+        } else if (candidate == num) {
+            count++;
+        } else {
+            count--;
+        }
+    }
+
+    // Second pass: Verification (optional for this problem, but good practice)
+    count = 0;
+    int n = nums.size();
+    for (int num : nums) {
+        if (num == candidate) {
+            count++;
+        }
+    }
+
+    if (count > n / 2) {
+        return candidate;
+    }
+
+    // This should ideally not be reached given the problem statement
+    return -1;
+}
+
+int main() {
+    vector<int> nums1 = {3, 2, 3};
+    cout << "Majority element in nums1: " << findMajorityElement(nums1) << endl; // Output: 3
+
+    vector<int> nums2 = {2, 2, 1, 1, 1, 2, 2};
+    cout << "Majority element in nums2: " << findMajorityElement(nums2) << endl; // Output: 2
+
+    vector<int> nums3 = {1};
+    cout << "Majority element in nums3: " << findMajorityElement(nums3) << endl; // Output: 1
+
+    vector<int> nums4 = {6, 5, 5};
+    cout << "Majority element in nums4: " << findMajorityElement(nums4) << endl; // Output: 5
+
+    return 0;
+}
