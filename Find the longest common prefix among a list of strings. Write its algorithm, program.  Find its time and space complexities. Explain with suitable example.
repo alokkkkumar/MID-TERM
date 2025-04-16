@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+string longestCommonPrefix(vector<string>& strs) {
+    if (strs.empty()) {
+        return "";
+    }
+
+    string prefix = strs[0];
+    for (int i = 1; i < strs.size(); ++i) {
+        int j = 0;
+        while (j < prefix.length() && j < strs[i].length() && prefix[j] == strs[i][j]) {
+            j++;
+        }
+        prefix = prefix.substr(0, j);
+        if (prefix.empty()) {
+            return "";
+        }
+    }
+
+    return prefix;
+}
+
+int main() {
+    vector<string> strs1 = {"flower", "flow", "flight"};
+    cout << "Longest common prefix of strs1: \"" << longestCommonPrefix(strs1) << "\"" << endl; // Output: "fl"
+
+    vector<string> strs2 = {"dog", "racecar", "car"};
+    cout << "Longest common prefix of strs2: \"" << longestCommonPrefix(strs2) << "\"" << endl; // Output: ""
+
+    vector<string> strs3 = {"apple", "apricot", "april"};
+    cout << "Longest common prefix of strs3: \"" << longestCommonPrefix(strs3) << "\"" << endl; // Output: "ap"
+
+    vector<string> strs4 = {"a"};
+    cout << "Longest common prefix of strs4: \"" << longestCommonPrefix(strs4) << "\"" << endl; // Output: "a"
+
+    vector<string> strs5 = {"", "b"};
+    cout << "Longest common prefix of strs5: \"" << longestCommonPrefix(strs5) << "\"" << endl; // Output: ""
+
+    return 0;
+}
